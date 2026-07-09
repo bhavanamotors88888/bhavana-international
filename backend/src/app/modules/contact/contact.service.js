@@ -4,11 +4,14 @@ import { config } from '../../config/env.config.js';
 const transporter = nodemailer.createTransport({
   host: config.SMTP_HOST,
   port: parseInt(config.SMTP_PORT, 10),
-  secure: false,
+  secure: false, // true for 465, false for other ports
   auth: {
     user: config.SMTP_USER,
     pass: config.SMTP_PASS,
   },
+  connectionTimeout: 10000, // 10 seconds timeout instead of infinite
+  greetingTimeout: 10000,
+  socketTimeout: 10000
 });
 
 export const sendContactEmail = async (contactData) => {
