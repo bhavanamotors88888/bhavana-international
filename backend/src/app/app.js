@@ -24,19 +24,8 @@ if (config.NODE_ENV === 'production') {
 app.use(helmet({
   hsts: { maxAge: 31536000, includeSubDomains: true, preload: true }
 }));
-const allowedOrigins = [
-  config.FRONTEND_URL.replace(/\/$/, ''),
-  config.FRONTEND_URL.replace(/\/$/, '') + '/'
-];
-
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin) || allowedOrigins.includes(origin + '/')) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
