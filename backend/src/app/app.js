@@ -14,10 +14,7 @@ app.set('trust proxy', 1);
 
 if (config.NODE_ENV === 'production') {
   app.use((req, res, next) => {
-    // Skip HTTPS redirect for preflight OPTIONS requests
-    if (req.method === 'OPTIONS') {
-      return next();
-    }
+    if (req.method === 'OPTIONS') return next();
     if (req.headers['x-forwarded-proto'] !== 'https' && !req.secure) {
       return res.redirect(`https://${req.headers.host}${req.url}`);
     }
@@ -35,7 +32,6 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // Handle preflight requests
 
 app.use(helmet({
   hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },

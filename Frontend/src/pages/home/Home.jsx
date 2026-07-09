@@ -62,7 +62,7 @@ const Home = () => {
       ...prev,
       [name]: value
     }));
-    
+
     // Clear validation error when user starts typing
     if (validationErrors[name]) {
       setValidationErrors((prev) => ({
@@ -75,7 +75,7 @@ const Home = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitStatus({ type: null, message: '' });
-    
+
     const errors = validateForm();
     if (Object.keys(errors).length > 0) {
       setValidationErrors(errors);
@@ -107,7 +107,7 @@ const Home = () => {
         type: 'success',
         message: data.message || 'Your inquiry has been submitted successfully!'
       });
-      
+
       // Reset form on success
       setFormData({
         name: '',
@@ -474,14 +474,13 @@ const Home = () => {
             </div>
             <div className="lg:w-3/5 p-10 lg:p-12">
               <h3 className="text-2xl font-bold mb-8 text-primary-main">Request a Quote</h3>
-              
+
               {submitStatus.type && (
-                <div 
-                  className={`p-4 rounded-xl mb-6 border transition-all duration-300 ${
-                    submitStatus.type === 'success' 
-                      ? 'bg-emerald-50 border-emerald-200 text-emerald-800' 
+                <div
+                  className={`p-4 rounded-xl mb-6 border transition-all duration-300 ${submitStatus.type === 'success'
+                      ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
                       : 'bg-red-50 border-red-200 text-red-800'
-                  }`}
+                    }`}
                 >
                   <p className="text-sm font-semibold">
                     {submitStatus.type === 'success' ? '✓ Success' : '⚠️ Error'}
@@ -496,18 +495,17 @@ const Home = () => {
                     <label htmlFor="name" className="text-sm font-medium text-text-body flex justify-between">
                       <span>Full Name<span className='text-red-700 '>*</span></span>
                     </label>
-                    <input 
-                      id="name" 
+                    <input
+                      id="name"
                       name="name"
-                      type="text" 
+                      type="text"
                       value={formData.name}
                       onChange={handleInputChange}
-                      className={`w-full px-4 py-3 rounded-lg border focus:ring-2 outline-none transition-all ${
-                        validationErrors.name 
-                          ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' 
+                      className={`w-full px-4 py-3 rounded-lg border focus:ring-2 outline-none transition-all ${validationErrors.name
+                          ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20'
                           : 'border-border-input focus:border-primary-main focus:ring-primary-main/20'
-                      }`} 
-                      placeholder="Your Name" 
+                        }`}
+                      placeholder="Your Name"
                     />
                     {validationErrors.name && (
                       <p className="text-xs text-red-600 mt-1">{validationErrors.name}</p>
@@ -515,32 +513,31 @@ const Home = () => {
                   </div>
                   <div className="space-y-2">
                     <label htmlFor="company" className="text-sm font-medium text-text-body">Company Name</label>
-                    <input 
-                      id="company" 
+                    <input
+                      id="company"
                       name="company"
-                      type="text" 
+                      type="text"
                       value={formData.company}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 rounded-lg border border-border-input focus:border-primary-main focus:ring-2 focus:ring-primary-main/20 outline-none transition-all" 
-                      placeholder="Your Company" 
+                      className="w-full px-4 py-3 rounded-lg border border-border-input focus:border-primary-main focus:ring-2 focus:ring-primary-main/20 outline-none transition-all"
+                      placeholder="Your Company"
                     />
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label htmlFor="email" className="text-sm font-medium text-text-body">Email Address<span className='text-red-700 '>*</span></label>
-                    <input 
-                      id="email" 
+                    <input
+                      id="email"
                       name="email"
-                      type="email" 
+                      type="email"
                       value={formData.email}
                       onChange={handleInputChange}
-                      className={`w-full px-4 py-3 rounded-lg border focus:ring-2 outline-none transition-all ${
-                        validationErrors.email 
-                          ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' 
+                      className={`w-full px-4 py-3 rounded-lg border focus:ring-2 outline-none transition-all ${validationErrors.email
+                          ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20'
                           : 'border-border-input focus:border-primary-main focus:ring-primary-main/20'
-                      }`} 
-                      placeholder="your@email.com" 
+                        }`}
+                      placeholder="your@email.com"
                     />
                     {validationErrors.email && (
                       <p className="text-xs text-red-600 mt-1">{validationErrors.email}</p>
@@ -548,50 +545,49 @@ const Home = () => {
                   </div>
                   <div className="space-y-2">
                     <label htmlFor="phone" className="text-sm font-medium text-text-body">Phone / WhatsApp</label>
-                    <input 
-                      id="phone" 
+                    <input
+                      id="phone"
                       name="phone"
-                      type="tel" 
+                      type="tel"
                       value={formData.phone}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 rounded-lg border border-border-input focus:border-primary-main focus:ring-2 focus:ring-primary-main/20 outline-none transition-all" 
-                      placeholder="+91 XXXX XXXXXX" 
+                      className="w-full px-4 py-3 rounded-lg border border-border-input focus:border-primary-main focus:ring-2 focus:ring-primary-main/20 outline-none transition-all"
+                      placeholder="+91 XXXX XXXXXX"
                     />
                   </div>
                 </div>
                 <div className="space-y-2">
                   <label htmlFor="country" className="text-sm font-medium text-text-body">Destination Country</label>
-                  <input 
-                    id="country" 
+                  <input
+                    id="country"
                     name="country"
-                    type="text" 
+                    type="text"
                     value={formData.country}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-lg border border-border-input focus:border-primary-main focus:ring-2 focus:ring-primary-main/20 outline-none transition-all" 
-                    placeholder="Your Country" 
+                    className="w-full px-4 py-3 rounded-lg border border-border-input focus:border-primary-main focus:ring-2 focus:ring-primary-main/20 outline-none transition-all"
+                    placeholder="Your Country"
                   />
                 </div>
                 <div className="space-y-2">
                   <label htmlFor="message" className="text-sm font-medium text-text-body">Your Requirements<span className='text-red-700 '>*</span></label>
-                  <textarea 
-                    id="message" 
-                    name="message" 
-                    rows="5" 
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows="5"
                     value={formData.message}
                     onChange={handleInputChange}
-                    className={`w-full px-4 py-3 rounded-lg border focus:ring-2 outline-none transition-all resize-none ${
-                      validationErrors.message 
-                        ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' 
+                    className={`w-full px-4 py-3 rounded-lg border focus:ring-2 outline-none transition-all resize-none ${validationErrors.message
+                        ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20'
                         : 'border-border-input focus:border-primary-main focus:ring-primary-main/20'
-                    }`} 
+                      }`}
                     placeholder="Tell us the products you're looking for, quantity, destination country, or any specific requirements."
                   />
                   {validationErrors.message && (
                     <p className="text-xs text-red-600 mt-1">{validationErrors.message}</p>
                   )}
                 </div>
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   disabled={isSubmitting}
                   className="inline-flex items-center justify-center font-semibold rounded-full transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 bg-primary-main text-white hover:bg-primary-dark focus-visible:ring-primary-main shadow-md hover:shadow-lg hover:-translate-y-0.5 px-8 py-4 text-lg cursor-pointer active:scale-[0.98] w-full disabled:opacity-70 disabled:cursor-not-allowed disabled:-translate-y-0"
                 >
@@ -605,7 +601,7 @@ const Home = () => {
                     </>
                   ) : (
                     <>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-send mr-2" aria-hidden="true"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path><path d="m21.854 2.147-10.94 10.939"></path></svg> 
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-send mr-2" aria-hidden="true"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path><path d="m21.854 2.147-10.94 10.939"></path></svg>
                       Request a Quote
                     </>
                   )}
