@@ -21,13 +21,21 @@ if (config.NODE_ENV === 'production') {
   });
 }
 
-app.use(helmet({
-  hsts: { maxAge: 31536000, includeSubDomains: true, preload: true }
-}));
-app.use(cors({
+// CORS MUST come before Helmet
+const corsOptions = {
   origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // Handle preflight requests
+
+app.use(helmet({
+  hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
+  crossOriginResourcePolicy: { policy: 'cross-origin' }
 }));
 
 app.use(xssClean);
