@@ -18,11 +18,14 @@ export const sendContactEmail = async (contactData) => {
     return { success: true, message: 'Mock email sent successfully' };
   }
 
+  const port = parseInt(config.SMTP_PORT || '587', 10);
+  const secure = port === 465;
+
   // Create transporter fresh each time so env vars are always current
   const transporter = nodemailer.createTransport({
     host: config.SMTP_HOST,
-    port: parseInt(config.SMTP_PORT || '587', 10),
-    secure: false,
+    port: port,
+    secure: secure,
     auth: {
       user: config.SMTP_USER,
       pass: config.SMTP_PASS,
