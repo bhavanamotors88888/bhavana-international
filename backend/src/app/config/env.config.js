@@ -3,11 +3,11 @@ import { z } from 'zod';
 const envSchema = z.object({
   PORT: z.string().default('5000'),
   NODE_ENV: z.enum(['development', 'production', 'test']).default('production'),
-  FRONTEND_URL: z.string().url('FRONTEND_URL must be a valid URL'),
-  SMTP_HOST: z.string().min(1, 'SMTP_HOST is required'),
-  SMTP_PORT: z.string().min(1, 'SMTP_PORT is required'),
-  SMTP_USER: z.string().min(1, 'SMTP_USER is required'),
-  SMTP_PASS: z.string().min(1, 'SMTP_PASS is required'),
+  FRONTEND_URL: z.string().default('http://localhost:5173'),
+  SMTP_HOST: z.string().default(''),
+  SMTP_PORT: z.string().default('587'),
+  SMTP_USER: z.string().default(''),
+  SMTP_PASS: z.string().default(''),
 });
 
 const parseEnv = () => {

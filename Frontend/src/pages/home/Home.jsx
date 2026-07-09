@@ -86,9 +86,9 @@ const Home = () => {
     setIsSubmitting(true);
 
     try {
-      const rawBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-      const baseUrl = rawBaseUrl.endsWith('/') ? rawBaseUrl.slice(0, -1) : rawBaseUrl;
-      const apiUrl = baseUrl.endsWith('/api/v1') ? baseUrl : `${baseUrl}/api/v1`;
+      const rawBaseUrl = import.meta.env.VITE_API_URL;
+      const baseUrl = rawBaseUrl.replace(/\/$/, '');
+      const apiUrl = `${baseUrl}/api/v1`;
       const response = await fetch(`${apiUrl}/contacts`, {
         method: 'POST',
         headers: {
