@@ -18,6 +18,13 @@ export const saveContactInquiry = async (contactData) => {
     message
   ];
   
-  const result = await query(insertQuery, values);
-  return result.rows[0];
+  try {
+    console.log(`[Database] Inserting new inquiry for email: ${email}`);
+    const result = await query(insertQuery, values);
+    console.log(`[Database] Insert successful, new ID: ${result.rows[0].id}`);
+    return result.rows[0];
+  } catch (error) {
+    console.error('[Database] ERROR during INSERT:', error.message);
+    throw error;
+  }
 };

@@ -22,11 +22,20 @@ if (config.DB_HOST) {
     };
   }
 
+  console.log(`[Database] Initializing connection pool to ${config.DB_HOST}:${config.DB_PORT}/${config.DB_NAME} as user ${config.DB_USER}`);
   pool = new Pool(poolConfig);
 
   pool.on('error', (err) => {
-    console.error('[Database] Unexpected error on idle client', err);
+    console.error('\n[Database] ❌ Unexpected error on idle client:');
+    console.error(err.stack || err);
+    console.log('--------------------------------------------------\n');
   });
+  
+  pool.on('connect', () => {
+    console.log('[Database] 🔌 New client connected to the pool');
+  });
+} else {
+  console.log('[Database] ⚠️ DB_HOST is not set. Database features are disabled.');
 }
 
 export const query = async (text, params) => {

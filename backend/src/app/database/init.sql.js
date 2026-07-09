@@ -2,6 +2,7 @@ import { query } from './db.config.js';
 
 export const initializeDatabase = async () => {
   try {
+    console.log('\n[Database] Attempting to initialize tables...');
     const createTableQuery = `
       CREATE TABLE IF NOT EXISTS contact_inquiries (
         id SERIAL PRIMARY KEY,
@@ -16,9 +17,11 @@ export const initializeDatabase = async () => {
     `;
     
     await query(createTableQuery);
-    console.log('[Database] contact_inquiries table is ready.');
+    console.log('[Database] ✅ contact_inquiries table is ready.\n');
   } catch (error) {
-    console.error('[Database] Failed to initialize database:', error.message);
-    // Don't throw here to allow the server to start even if DB init fails initially (e.g. wrong credentials)
+    console.error('\n[Database] ❌ Failed to initialize database tables:');
+    console.error(error.stack || error);
+    console.log('--------------------------------------------------\n');
+    // Don't throw here to allow the server to start even if DB init fails initially
   }
 };
