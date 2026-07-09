@@ -37,14 +37,14 @@ if (config.NODE_ENV === 'production') {
   });
 }
 
-
+app.get('/hello',(req,res)=>{
+  res.send('Hello World!')
+}) 
 
 app.use(helmet({
   hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
   crossOriginResourcePolicy: { policy: 'cross-origin' }
 }));
-
-app.use(xssClean);
 
 app.use(compression());
 
@@ -58,6 +58,8 @@ app.use('/api/', limiter);
 // Body Parsing Middlewares
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+
+app.use(xssClean);
 
 // Routes
 app.use('/api/v1/contacts', contactRoutes);

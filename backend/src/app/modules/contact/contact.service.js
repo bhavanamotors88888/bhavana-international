@@ -113,3 +113,49 @@ export const sendContactEmail = async (contactData) => {
     throw new Error('Failed to send email: ' + error.message);
   }
 };
+
+export const testSMTPConnection = async () => {
+  if (!config.SMTP_HOST) {
+    return {
+      success: false,
+      message: 'SMTP_HOST is not configured (Mock Mode)'
+    };
+  }
+
+  const port = parseInt(config.SMTP_PORT || '587', 10);
+  const secure = port === 465;
+
+  const transporter = nodemailer.createTransport({
+    host: config.SMTP_HOST,
+    port: port,
+    secure: secure,
+    auth: {
+      user: config.SMTP_USER,
+      pass: config.SMTP_PASS,
+    },
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 10000,
+  });
+
+  try {
+    await transporter.verify();
+    return {
+      success: true,
+      message: 'SMTP connection verified successfully',
+      config: {
+        host: config.SMTP_HOST,
+        port: port,
+        secure: secure,
+        user: config.SMTP_USER ? config.SMTP_USER.substring(0, 5) + '***' : '(empty)'
+      }
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message,
+      code: error.code,
+      command: error.command
+    };
+  }
+};

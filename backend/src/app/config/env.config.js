@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 const parseEnv = () => {
   return {
     PORT: process.env.PORT || '5000',
