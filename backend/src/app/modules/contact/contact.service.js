@@ -6,14 +6,14 @@ export const sendContactEmail = async (contactData) => {
 
   // Debug: log what SMTP config we have
   console.log('[Email] SMTP Config:', {
-    host: config.SMTP_HOST || '(empty)',
-    port: config.SMTP_PORT || '(empty)',
-    user: config.SMTP_USER ? config.SMTP_USER.substring(0, 5) + '***' : '(empty)',
-    passLength: config.SMTP_PASS ? config.SMTP_PASS.length : 0,
+    host: config.SMTP_HOST ,
+    port: config.SMTP_PORT ,
+    user: config.SMTP_USER,
+    passLength: config.SMTP_PASS,
   });
 
   // If no SMTP config, mock the email
-  if (!config.SMTP_HOST || config.SMTP_HOST === '') {
+  if (!config.SMTP_HOST) {
     console.log('[Email] No SMTP_HOST set — running in MOCK mode. Email not sent.');
     return { success: true, message: 'Mock email sent successfully' };
   }
