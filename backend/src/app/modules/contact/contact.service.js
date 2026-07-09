@@ -1,21 +1,45 @@
 import nodemailer from 'nodemailer';
 import { config } from '../../config/env.config.js';
 
-const transporter = nodemailer.createTransport({
-  host: config.SMTP_HOST,
-  port: parseInt(config.SMTP_PORT, 10),
-  secure: false, // true for 465, false for other ports
-  auth: {
-    user: config.SMTP_USER,
-    pass: config.SMTP_PASS,
-  },
-  connectionTimeout: 10000, // 10 seconds timeout instead of infinite
-  greetingTimeout: 10000,
-  socketTimeout: 10000
-});
-
 export const sendContactEmail = async (contactData) => {
   const { name, email, company, phone, country, message } = contactData;
+
+  // Debug: log what SMTP config we have
+  console.log('[Email] SMTP Config:', {
+    host: config.SMTP_HOST || '(empty)',
+    port: config.SMTP_PORT || '(empty)',
+    user: config.SMTP_USER ? config.SMTP_USER.substring(0, 5) + '***' : '(empty)',
+    passLength: config.SMTP_PASS ? config.SMTP_PASS.length : 0,
+  });
+
+  // If no SMTP config, mock the email
+  if (!config.SMTP_HOST || config.SMTP_HOST === '') {
+    console.log('[Email] No SMTP_HOST set — running in MOCK mode. Email not sent.');
+    return { success: true, message: 'Mock email sent successfully' };
+  }
+
+  // Create transporter fresh each time so env vars are always current
+  const transporter = nodemailer.createTransport({
+    host: config.SMTP_HOST,
+    port: parseInt(config.SMTP_PORT || '587', 10),
+    secure: false,
+    auth: {
+      user: config.SMTP_USER,
+      pass: config.SMTP_PASS,
+    },
+    connectionTimeout: 15000,
+    greetingTimeout: 15000,
+    socketTimeout: 15000,
+  });
+
+  // Verify SMTP connection before sending
+  try {
+    await transporter.verify();
+    console.log('[Email] SMTP connection verified successfully.');
+  } catch (verifyErr) {
+    console.error('[Email] SMTP verify FAILED:', verifyErr.message);
+    throw verifyErr;
+  }
 
   const mailHtml = `
     <div style="font-family: 'Inter', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #E5E7EB; border-radius: 12px; overflow: hidden; background-color: #FFFFFF; box-shadow: 0 4px 30px rgba(16, 42, 91, 0.05);">
@@ -70,21 +94,19 @@ export const sendContactEmail = async (contactData) => {
   `;
 
   const mailOptions = {
-    from: `"Bhavana International Web" <${config.SMTP_USER || 'test@example.com'}>`,
+    from: `"Bhavana International Web" <${config.SMTP_USER}>`,
     replyTo: `"${name}" <${email}>`,
-    to: config.SMTP_USER || 'test@example.com',
+    to: config.SMTP_USER,
     subject: `New Inquiry: ${name} ${company ? '- ' + company : ''} | Bhavana International`,
     html: mailHtml,
   };
 
   try {
-    if (!config.SMTP_HOST || config.SMTP_HOST === '') {
-      console.log('Mock Email Sent (No SMTP_HOST configured):', mailOptions.subject);
-      return { success: true, message: 'Mock email sent successfully' };
-    }
-    return await transporter.sendMail(mailOptions);
+    const info = await transporter.sendMail(mailOptions);
+    console.log('[Email] Sent successfully! MessageId:', info.messageId);
+    return info;
   } catch (error) {
-    console.error('Error sending email:', error);
-    throw new Error('Failed to send email. Please check your SMTP configuration.');
+    console.error('[Email] sendMail FAILED:', error.message);
+    throw new Error('Failed to send email: ' + error.message);
   }
 };
