@@ -10,6 +10,15 @@ const parseEnv = () => {
     SMTP_USER: process.env.SMTP_USER || '',
     SMTP_PASS: process.env.SMTP_PASS || '',
     RESEND_API_KEY: process.env.RESEND_API_KEY || '',
+    DB_HOST: process.env.DB_HOST || '',
+    DB_PORT: process.env.DB_PORT || '5432',
+    DB_NAME: process.env.DB_NAME || '',
+    DB_USER: process.env.DB_USER || '',
+    DB_PASSWORD: process.env.DB_PASSWORD || '',
+    DB_SSL: process.env.DB_SSL === 'true',
+    DB_POOL_MAX: parseInt(process.env.DB_POOL_MAX || '20', 10),
+    DB_POOL_IDLE: parseInt(process.env.DB_POOL_IDLE || '10000', 10),
+    DB_POOL_ACQUIRE: parseInt(process.env.DB_POOL_ACQUIRE || '30000', 10),
   };
 };
 

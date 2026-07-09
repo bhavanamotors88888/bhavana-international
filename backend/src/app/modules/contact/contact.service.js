@@ -1,5 +1,29 @@
 import nodemailer from 'nodemailer';
 import { config } from '../../config/env.config.js';
+import { saveContactInquiry } from './contact.repository.js';
+
+export const processContactInquiry = async (contactData) => {
+  // 1. Save to Database first
+  let savedRecord;
+  try {
+    if (config.DB_HOST) {
+      savedRecord = await saveContactInquiry(contactData);
+      console.log('[Contact] Successfully saved inquiry to database with ID:', savedRecord.id);
+    } else {
+      console.log('[Contact] DB_HOST not configured. Skipping database save.');
+    }
+  } catch (error) {
+    console.error('[Contact] Failed to save inquiry to database:', error.message);
+    throw new Error('Failed to save inquiry to database: ' + error.message);
+  }
+
+  // 2. Attempt to send email in the background (Non-blocking)
+  sendContactEmail(contactData).catch(err => {
+    console.error('[Contact] Background email send failed:', err.message);
+  });
+
+  return savedRecord || contactData;
+};
 
 export const sendContactEmail = async (contactData) => {
   const { name, email, company, phone, country, message } = contactData;
