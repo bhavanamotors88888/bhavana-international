@@ -102,14 +102,9 @@ export const sendContactEmail = async (contactData) => {
     return { success: true, message: 'Mock email sent successfully' };
   }
 
-  const port = parseInt(config.SMTP_PORT || '587', 10);
-  const secure = port === 465;
-
   // Create transporter fresh each time so env vars are always current
   const transporter = nodemailer.createTransport({
-    host: config.SMTP_HOST,
-    port: port,
-    secure: secure,
+    service: 'gmail',
     auth: {
       user: config.SMTP_USER,
       pass: config.SMTP_PASS,
@@ -188,13 +183,8 @@ export const testSMTPConnection = async () => {
     };
   }
 
-  const port = parseInt(config.SMTP_PORT || '587', 10);
-  const secure = port === 465;
-
   const transporter = nodemailer.createTransport({
-    host: config.SMTP_HOST,
-    port: port,
-    secure: secure,
+    service: 'gmail',
     auth: {
       user: config.SMTP_USER,
       pass: config.SMTP_PASS,
@@ -210,9 +200,7 @@ export const testSMTPConnection = async () => {
       success: true,
       message: 'SMTP connection verified successfully',
       config: {
-        host: config.SMTP_HOST,
-        port: port,
-        secure: secure,
+        service: 'gmail',
         user: config.SMTP_USER ? config.SMTP_USER.substring(0, 5) + '***' : '(empty)'
       }
     };
