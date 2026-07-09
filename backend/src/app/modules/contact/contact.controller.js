@@ -16,6 +16,7 @@ export const handleContactSubmit = async (req, res, next) => {
   }
 };
 
+
 export const handleSMTPTest = async (req, res, next) => {
   try {
     const result = await testSMTPConnection();
