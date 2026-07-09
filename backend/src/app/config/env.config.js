@@ -9,6 +9,7 @@ const parseEnv = () => {
     SMTP_PORT: process.env.SMTP_PORT || '587',
     SMTP_USER: process.env.SMTP_USER || '',
     SMTP_PASS: process.env.SMTP_PASS || '',
+    RESEND_API_KEY: process.env.RESEND_API_KEY || '',
   };
 };
 

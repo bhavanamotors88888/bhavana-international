@@ -4,46 +4,6 @@ import { config } from '../../config/env.config.js';
 export const sendContactEmail = async (contactData) => {
   const { name, email, company, phone, country, message } = contactData;
 
-  // Debug: log what SMTP config we have
-  console.log('[Email] SMTP Config:', {
-    host: config.SMTP_HOST ,
-    port: config.SMTP_PORT ,
-    user: config.SMTP_USER,
-    passLength: config.SMTP_PASS,
-  });
-
-  // If no SMTP config, mock the email
-  if (!config.SMTP_HOST) {
-    console.log('[Email] No SMTP_HOST set — running in MOCK mode. Email not sent.');
-    return { success: true, message: 'Mock email sent successfully' };
-  }
-
-  const port = parseInt(config.SMTP_PORT || '587', 10);
-  const secure = port === 465;
-
-  // Create transporter fresh each time so env vars are always current
-  const transporter = nodemailer.createTransport({
-    host: config.SMTP_HOST,
-    port: port,
-    secure: secure,
-    auth: {
-      user: config.SMTP_USER,
-      pass: config.SMTP_PASS,
-    },
-    connectionTimeout: 15000,
-    greetingTimeout: 15000,
-    socketTimeout: 15000,
-  });
-
-  // Verify SMTP connection before sending
-  try {
-    await transporter.verify();
-    console.log('[Email] SMTP connection verified successfully.');
-  } catch (verifyErr) {
-    console.error('[Email] SMTP verify FAILED:', verifyErr.message);
-    throw verifyErr;
-  }
-
   const mailHtml = `
     <div style="font-family: 'Inter', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #E5E7EB; border-radius: 12px; overflow: hidden; background-color: #FFFFFF; box-shadow: 0 4px 30px rgba(16, 42, 91, 0.05);">
       
@@ -96,6 +56,78 @@ export const sendContactEmail = async (contactData) => {
     </div>
   `;
 
+  // 1. Resend API Flow (If RESEND_API_KEY is configured)
+  if (config.RESEND_API_KEY) {
+    console.log('[Email] Sending via Resend API...');
+    try {
+      const response = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${config.RESEND_API_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          from: 'Bhavana Web <onboarding@resend.dev>',
+          to: config.SMTP_USER || 'bhavanamotors.88888@gmail.com',
+          reply_to: `"${name}" <${email}>`,
+          subject: `New Inquiry: ${name} ${company ? '- ' + company : ''} | Bhavana International`,
+          html: mailHtml
+        })
+      });
+
+      const resJson = await response.json();
+      if (!response.ok) {
+        throw new Error(resJson.message || 'Resend API returned error');
+      }
+      console.log('[Email] Sent successfully via Resend! Id:', resJson.id);
+      return resJson;
+    } catch (error) {
+      console.error('[Email] Resend API FAILED:', error.message);
+      throw error;
+    }
+  }
+
+  // 2. Traditional SMTP Flow
+  // Debug: log what SMTP config we have
+  console.log('[Email] SMTP Config:', {
+    host: config.SMTP_HOST ,
+    port: config.SMTP_PORT ,
+    user: config.SMTP_USER,
+    passLength: config.SMTP_PASS ? config.SMTP_PASS.length : 0,
+  });
+
+  // If no SMTP config, mock the email
+  if (!config.SMTP_HOST) {
+    console.log('[Email] No SMTP_HOST set — running in MOCK mode. Email not sent.');
+    return { success: true, message: 'Mock email sent successfully' };
+  }
+
+  const port = parseInt(config.SMTP_PORT || '587', 10);
+  const secure = port === 465;
+
+  // Create transporter fresh each time so env vars are always current
+  const transporter = nodemailer.createTransport({
+    host: config.SMTP_HOST,
+    port: port,
+    secure: secure,
+    auth: {
+      user: config.SMTP_USER,
+      pass: config.SMTP_PASS,
+    },
+    connectionTimeout: 15000,
+    greetingTimeout: 15000,
+    socketTimeout: 15000,
+  });
+
+  // Verify SMTP connection before sending
+  try {
+    await transporter.verify();
+    console.log('[Email] SMTP connection verified successfully.');
+  } catch (verifyErr) {
+    console.error('[Email] SMTP verify FAILED:', verifyErr.message);
+    throw verifyErr;
+  }
+
   const mailOptions = {
     from: `"Bhavana International Web" <${config.SMTP_USER}>`,
     replyTo: `"${name}" <${email}>`,
@@ -115,6 +147,40 @@ export const sendContactEmail = async (contactData) => {
 };
 
 export const testSMTPConnection = async () => {
+  if (config.RESEND_API_KEY) {
+    console.log('[Email Test] Testing Resend API connection...');
+    try {
+      const response = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${config.RESEND_API_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          from: 'Bhavana Web <onboarding@resend.dev>',
+          to: config.SMTP_USER || 'bhavanamotors.88888@gmail.com',
+          subject: 'Resend API Connection Test',
+          html: '<p>If you receive this email, your Resend API integration is working successfully!</p>'
+        })
+      });
+
+      const resJson = await response.json();
+      if (!response.ok) {
+        throw new Error(resJson.message || 'Resend API returned error');
+      }
+      return {
+        success: true,
+        message: 'Resend API connection verified and test email sent successfully',
+        id: resJson.id
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: 'Resend API test FAILED: ' + error.message
+      };
+    }
+  }
+
   if (!config.SMTP_HOST) {
     return {
       success: false,
