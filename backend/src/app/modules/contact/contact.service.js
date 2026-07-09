@@ -67,12 +67,21 @@ export const sendContactEmail = async (contactData) => {
   `;
 
   const mailOptions = {
-    from: `"Bhavana International Web" <${config.SMTP_USER}>`,
+    from: `"Bhavana International Web" <${config.SMTP_USER || 'test@example.com'}>`,
     replyTo: `"${name}" <${email}>`,
-    to: config.SMTP_USER,
+    to: config.SMTP_USER || 'test@example.com',
     subject: `New Inquiry: ${name} ${company ? '- ' + company : ''} | Bhavana International`,
     html: mailHtml,
   };
 
-  return await transporter.sendMail(mailOptions);
+  try {
+    if (!config.SMTP_HOST || config.SMTP_HOST === '') {
+      console.log('Mock Email Sent (No SMTP_HOST configured):', mailOptions.subject);
+      return { success: true, message: 'Mock email sent successfully' };
+    }
+    return await transporter.sendMail(mailOptions);
+  } catch (error) {
+    console.error('Error sending email:', error);
+    throw new Error('Failed to send email. Please check your SMTP configuration.');
+  }
 };

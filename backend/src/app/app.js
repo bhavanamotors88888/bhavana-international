@@ -12,17 +12,6 @@ const app = express();
 
 app.set('trust proxy', 1);
 
-if (config.NODE_ENV === 'production') {
-  app.use((req, res, next) => {
-    if (req.method === 'OPTIONS') return next();
-    if (req.headers['x-forwarded-proto'] !== 'https' && !req.secure) {
-      return res.redirect(`https://${req.headers.host}${req.url}`);
-    }
-    next();
-  });
-}
-
-// CORS MUST come before Helmet
 const corsOptions = {
   origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -31,7 +20,24 @@ const corsOptions = {
   optionsSuccessStatus: 204
 };
 
+// CORS MUST be the very first middleware!
 app.use(cors(corsOptions));
+
+if (config.NODE_ENV === 'production') {
+  app.use((req, res, next) => {
+    if (req.method === 'OPTIONS') return next();
+    
+    // Skip HTTPS redirect for localhost
+    if (req.hostname === 'localhost' || req.hostname === '127.0.0.1') return next();
+    
+    if (req.headers['x-forwarded-proto'] !== 'https' && !req.secure) {
+      return res.redirect(`https://${req.headers.host}${req.url}`);
+    }
+    next();
+  });
+}
+
+
 
 app.use(helmet({
   hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
