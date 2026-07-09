@@ -80,36 +80,6 @@ export const sendContactEmail = async (contactData) => {
     </div>
   `;
 
-  // 1. Resend API Flow (If RESEND_API_KEY is configured)
-  if (config.RESEND_API_KEY) {
-    console.log('[Email] Sending via Resend API...');
-    try {
-      const response = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${config.RESEND_API_KEY}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          from: 'Bhavana Web <onboarding@resend.dev>',
-          to: config.SMTP_USER || 'bhavanamotors.88888@gmail.com',
-          reply_to: `"${name}" <${email}>`,
-          subject: `New Inquiry: ${name} ${company ? '- ' + company : ''} | Bhavana International`,
-          html: mailHtml
-        })
-      });
-
-      const resJson = await response.json();
-      if (!response.ok) {
-        throw new Error(resJson.message || 'Resend API returned error');
-      }
-      console.log('[Email] Sent successfully via Resend! Id:', resJson.id);
-      return resJson;
-    } catch (error) {
-      console.error('[Email] Resend API FAILED:', error.message);
-      throw error;
-    }
-  }
 
   // 2. Traditional SMTP Flow
   // Debug: log what SMTP config we have
@@ -165,75 +135,4 @@ export const sendContactEmail = async (contactData) => {
   }
 };
 
-export const testSMTPConnection = async () => {
-  if (config.RESEND_API_KEY) {
-    console.log('[Email Test] Testing Resend API connection...');
-    try {
-      const response = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${config.RESEND_API_KEY}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          from: 'Bhavana Web <onboarding@resend.dev>',
-          to: config.SMTP_USER || 'bhavanamotors.88888@gmail.com',
-          subject: 'Resend API Connection Test',
-          html: '<p>If you receive this email, your Resend API integration is working successfully!</p>'
-        })
-      });
 
-      const resJson = await response.json();
-      if (!response.ok) {
-        throw new Error(resJson.message || 'Resend API returned error');
-      }
-      return {
-        success: true,
-        message: 'Resend API connection verified and test email sent successfully',
-        id: resJson.id
-      };
-    } catch (error) {
-      return {
-        success: false,
-        message: 'Resend API test FAILED: ' + error.message
-      };
-    }
-  }
-
-  if (!config.SMTP_HOST) {
-    return {
-      success: false,
-      message: 'SMTP_HOST is not configured (Mock Mode)'
-    };
-  }
-
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: config.SMTP_USER,
-      pass: config.SMTP_PASS,
-    },
-    connectionTimeout: 10000,
-    greetingTimeout: 10000,
-    socketTimeout: 10000,
-  });
-
-  try {
-    await transporter.verify();
-    return {
-      success: true,
-      message: 'SMTP connection verified successfully',
-      config: {
-        service: 'gmail',
-        user: config.SMTP_USER ? config.SMTP_USER.substring(0, 5) + '***' : '(empty)'
-      }
-    };
-  } catch (error) {
-    return {
-      success: false,
-      message: error.message,
-      code: error.code,
-      command: error.command
-    };
-  }
-};
