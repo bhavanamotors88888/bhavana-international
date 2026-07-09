@@ -1,0 +1,37 @@
+services:
+  - type: web
+    name: bhavana-backend
+    env: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: FRONTEND_URL
+        fromService:
+          type: web
+          name: bhavana-frontend
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: SMTP_HOST
+        value: "smtp.example.com"
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_USER
+        value: "your_smtp_user"
+      - key: SMTP_PASS
+        value: "your_smtp_pass"
+      # IMPORTANT: Replace these SMTP values in your Render Dashboard after deployment!
+
+  - type: web
+    name: bhavana-frontend
+    env: static
+    rootDir: Frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: bhavana-backend
+          envVarKey: RENDER_EXTERNAL_URL
