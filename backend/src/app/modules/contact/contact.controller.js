@@ -5,10 +5,8 @@ export const handleContactSubmit = async (req, res, next) => {
   try {
     const contactData = req.body;
 
-   
-    sendContactEmail(contactData).catch((err) => {
-      console.error('[Contact] Email send failed (non-blocking):', err.message);
-    });
+    // Wait for the email to actually send before returning success
+    await sendContactEmail(contactData);
 
     return sendSuccess(res, 200, 'Your message has been sent successfully. We will contact you soon.', contactData);
   } catch (error) {
