@@ -1,12 +1,14 @@
-const transporter = require('../../providers/mail.provider');
+const { Resend } = require('resend');
 const config = require('../../config/env.config');
+
+const resend = new Resend(config.resendApiKey);
 
 const sendQuoteEmail = async (quoteData) => {
   const { name, companyName, email, phone, destinationCountry, requirements } = quoteData;
 
   const mailOptions = {
-    from: `"${name}" <${config.resendFromEmail}>`, 
-    to: config.contactEmail, // Send to yourself
+    from: `Bhavana International <${config.resendFromEmail}>`, 
+    to: config.contactEmail,
     subject: `New Quote Request from ${name}`,
     html: `
       <div style="font-family: 'Inter', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #E5E7EB; border-radius: 12px; overflow: hidden; background-color: #FFFFFF; box-shadow: 0 4px 30px rgba(16, 42, 91, 0.05);">
@@ -63,8 +65,12 @@ const sendQuoteEmail = async (quoteData) => {
   };
 
   try {
-    const info = await transporter.sendMail(mailOptions);
-    return info;
+    const { data, error } = await resend.emails.send(mailOptions);
+    if (error) {
+      console.error('Error from Resend SDK:', error);
+      throw new Error('Failed to send email via Resend.');
+    }
+    return data;
   } catch (error) {
     console.error('Error sending quote email:', error);
     throw new Error('Failed to send email. Please try again later.');
