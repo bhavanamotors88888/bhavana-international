@@ -84,15 +84,14 @@ export const sendContactEmail = async (contactData) => {
   // 2. Traditional SMTP Flow
   // Debug: log what SMTP config we have
   console.log('[Email] SMTP Config:', {
-    host: config.SMTP_HOST ,
-    port: config.SMTP_PORT ,
-    user: config.SMTP_USER,
+    service: 'gmail',
+    user: config.SMTP_USER || '(NOT SET)',
     passLength: config.SMTP_PASS ? config.SMTP_PASS.length : 0,
   });
 
-  // If no SMTP config, mock the email
-  if (!config.SMTP_HOST) {
-    console.log('[Email] No SMTP_HOST set — running in MOCK mode. Email not sent.');
+  // If no SMTP credentials, mock the email
+  if (!config.SMTP_USER || !config.SMTP_PASS) {
+    console.log('[Email] No SMTP_USER/SMTP_PASS set — running in MOCK mode. Email not sent.');
     return { success: true, message: 'Mock email sent successfully' };
   }
 

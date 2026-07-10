@@ -1,15 +1,1 @@
-import sanitizeHtml from 'sanitize-html';
-
-export const xssClean = (req, res, next) => {
-  if (req.body) {
-    for (const key in req.body) {
-      if (typeof req.body[key] === 'string') {
-        req.body[key] = sanitizeHtml(req.body[key], {
-          allowedTags: [], // Strip all HTML tags
-          allowedAttributes: {}
-        });
-      }
-    }
-  }
-  next();
-};
+// xss middleware removed

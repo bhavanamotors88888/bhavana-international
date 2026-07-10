@@ -1,9 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import compression from 'compression';
-import rateLimit from 'express-rate-limit';
-import { xssClean } from './middleware/xss.middleware.js';
 import contactRoutes from './modules/contact/contact.routes.js';
 import { globalErrorHandler, notFoundHandler } from './middleware/error.middleware.js';
 import { config } from './config/env.config.js';
@@ -46,20 +43,9 @@ app.use(helmet({
   crossOriginResourcePolicy: { policy: 'cross-origin' }
 }));
 
-app.use(compression());
-
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-  message: { success: false, message: 'Too many requests from this IP, please try again later.' }
-});
-app.use('/api/', limiter);
-
 // Body Parsing Middlewares
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
-
-app.use(xssClean);
 
 // Routes
 app.use('/api/v1/contacts', contactRoutes);

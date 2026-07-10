@@ -14,14 +14,10 @@ services:
           name: bhavana-frontend
           envVarKey: RENDER_EXTERNAL_URL
       - key: SMTP_HOST
-        value: "smtp.example.com"
+        value: "smtp.gmail.com"
       - key: SMTP_PORT
         value: "587"
-      - key: SMTP_USER
-        value: "your_smtp_user"
-      - key: SMTP_PASS
-        value: "your_smtp_pass"
-      # IMPORTANT: Replace these SMTP values in your Render Dashboard after deployment!
+      # IMPORTANT: Set SMTP_USER and SMTP_PASS in Render Dashboard manually (never commit secrets to yaml!)
 
   - type: web
     name: bhavana-frontend
