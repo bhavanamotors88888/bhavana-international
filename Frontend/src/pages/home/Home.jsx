@@ -86,9 +86,9 @@ const Home = () => {
     setIsSubmitting(true);
 
     try {
-      const rawBaseUrl = import.meta.env.VITE_API_URL || '';
+      const rawBaseUrl = import.meta.env.VITE_API_URL || 'https://bhavana-backend.onrender.com';
       const baseUrl = rawBaseUrl.replace(/\/$/, '');
-      const apiUrl = baseUrl ? `${baseUrl}/api/v1` : '/api/v1';
+      const apiUrl = baseUrl.endsWith('/api/v1') ? baseUrl : `${baseUrl}/api/v1`;
       const response = await fetch(`${apiUrl}/quote/request-quote`, {
         method: 'POST',
         headers: {
