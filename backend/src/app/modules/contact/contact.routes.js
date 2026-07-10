@@ -5,7 +5,10 @@ import { contactSchema } from './contact.validator.js';
 
 const router = Router();
 
-router.post('/', validateRequest(contactSchema), handleContactSubmit);
+router.get('/', (req, res) => {
+  res.status(200).json({ success: true, message: 'Contact API is running properly.' });
+});
 
+router.post('/', validateRequest(contactSchema), handleContactSubmit);
 
 export default router;
