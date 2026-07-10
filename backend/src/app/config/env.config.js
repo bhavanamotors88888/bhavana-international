@@ -2,14 +2,15 @@ require('dotenv').config();
 
 const config = {
   port: process.env.PORT || 5000,
-  gmailUser: process.env.GMAIL_USER || '',
-  gmailAppPassword: process.env.GMAIL_APP_PASSWORD || '',
+  resendApiKey: process.env.RESEND_API_KEY || 're_ScVujnZ8_8AZDe2nwHSBPkyrsEyapmPh4',
+  resendFromEmail: process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev',
+  contactEmail: process.env.CONTACT_EMAIL || process.env.GMAIL_USER || 'bhavanamotors.88888@gmail.com',
   frontendUrl: process.env.FRONTEND_URL || 'http://localhost:3000'
 };
 
 // Validate environment variables on startup
-if (!config.gmailUser || !config.gmailAppPassword) {
-  console.error("FATAL ERROR: GMAIL_USER or GMAIL_APP_PASSWORD is not set in environment variables.");
+if (!config.resendApiKey) {
+  console.error("FATAL ERROR: RESEND_API_KEY is not set in environment variables.");
   process.exit(1);
 }
 

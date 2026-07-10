@@ -2,10 +2,12 @@ const nodemailer = require('nodemailer');
 const config = require('../config/env.config');
 
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.resend.com',
+  port: 465,
+  secure: true,
   auth: {
-    user: config.gmailUser,
-    pass: config.gmailAppPassword,
+    user: 'resend',
+    pass: config.resendApiKey,
   },
 });
 
@@ -14,7 +16,7 @@ transporter.verify(function (error, success) {
   if (error) {
     console.error('[MailProvider] Connection error:', error);
   } else {
-    console.log('[MailProvider] Server is ready to take our messages');
+    console.log('[MailProvider] Server is ready to take our messages (Resend SMTP)');
   }
 });
 
