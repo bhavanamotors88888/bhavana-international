@@ -20,7 +20,7 @@ const About = () => {
         <div className="container-custom max-w-4xl">
           <h1 className="text-4xl md:text-5xl font-bold mb-6 text-primary-main">About Us</h1>
           <p className="text-xl text-text-body leading-relaxed">
-            Learn more about Bhavana International, an Indian Vehicle Export Company helping businesses source quality products from India. With experience across international markets, we work with importers, dealers, and distributors by supplying motorcycles, authorised OEM spare parts, and products from the ceramic industry while building every partnership on trust, reliability, and consistent service.
+            Learn more about Bhavana International, an Indian Vehicle Export Company helping businesses source quality products from India. We work with importers, dealers, and distributors by supplying two-wheelers, three-wheelers, four-wheelers, authorised OEM spare parts, ceramic products, and wooden furniture to businesses across international markets.
           </p>
         </div>
       </section>
@@ -32,7 +32,7 @@ const About = () => {
             <div className="order-2 md:order-1">
               <h2 className="text-3xl font-bold mb-6 text-primary-main">The Story Behind Bhavana International</h2>
               <p className="text-text-body text-lg mb-4 leading-relaxed">
-                Bhavana International is an Indian Vehicle Export Company supplying motorcycles, scooters, authorised OEM spare parts, and products from the ceramic industry to businesses across global markets. Our customers include importers, dealers, and distributors who source quality products from India for their local markets.
+                Bhavana International is an Indian Vehicle Export Company supplying two-wheelers, three-wheelers, four-wheelers, authorised OEM spare parts, ceramic products, and wooden furniture to businesses across global markets. Our customers include importers, dealers, and distributors looking for a reliable sourcing partner from India.
               </p>
               <p className="text-text-body text-lg mb-4 leading-relaxed">
                 No two businesses have the same requirements, so we begin by understanding what's important to each customer before suggesting suitable products. Every order is handled with care because we believe trust is earned through consistency, quality, and the way we work with our customers—not just through the products we supply.
@@ -162,7 +162,7 @@ const About = () => {
         <div className="container-custom max-w-3xl">
           <h2 className="text-3xl font-bold mb-6 text-primary-main">Ready to Partner with Bhavana International?</h2>
           <p className="text-text-body text-lg mb-8">
-            Let's discuss your business requirements and help you source quality motorcycles, scooters, and genuine spare parts from India with confidence.
+            Let's discuss your business requirements and help you source vehicles, authorised OEM spare parts, ceramic products, and wooden furniture from India with confidence.
           </p>
           <Link to="/#contact" className="inline-block mx-auto">
             <Button size="lg" variant="primary" className="flex items-center justify-center px-10 py-4 text-lg">

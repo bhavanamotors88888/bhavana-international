@@ -423,8 +423,8 @@ const Home = () => {
           <div className="bg-bg-card rounded-3xl shadow-xl overflow-hidden flex flex-col lg:flex-row border border-border-main mb-16">
             <div className="lg:w-2/5 bg-bg-alternate p-10 lg:p-12 text-primary-main flex flex-col justify-between border-r border-border-main">
               <div>
-                <h3 className="text-3xl font-bold mb-4 text-primary-main">Request Your Export Quote</h3>
-                <p className="text-text-body mb-8">Share your requirements with us, and we'll prepare a quotation that matches your business needs. Simply let us know the products, destination country, and required quantity to get started.</p>
+                <h3 className="text-3xl font-bold mb-4 text-primary-main">Looking for a reliable export partner from India?</h3>
+                <p className="text-text-body mb-8">Whether you're sourcing vehicles, OEM spare parts, ceramic products, or wooden furniture, our team is ready to assist.</p>
                 <div className="space-y-8 mb-12">
                   <div className="flex items-start gap-4">
                     <div className="bg-white p-3 rounded-full shrink-0 shadow-sm border border-border-main">
