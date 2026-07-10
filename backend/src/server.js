@@ -1,23 +1,44 @@
-import app from './app/app.js';
-import { config } from './app/config/env.config.js';
-import { initializeDatabase } from './app/database/init.sql.js';
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
 
-const PORT = config.PORT;
+// Import configurations and middlewares
+const config = require('./app/config/env.config');
+const { globalErrorHandler } = require('./app/middleware/errorHandler');
 
-const startServer = async () => {
-  try {
-    if (config.DB_HOST) {
-      await initializeDatabase();
-    }
-    
-    app.listen(PORT, () => {
-      console.log(` Server is running on http://localhost:${PORT}`);
-    });
-  } catch (error) {
-    console.error('Failed to start server:', error);
-    process.exit(1);
-  }
-};
+// Import routes
+const quoteRoutes = require('./app/modules/quote/quote.routes');
 
+const app = express();
 
-startServer();
+// Middlewares
+app.use(cors({
+  origin: '*', // For production, replace '*' with config.frontendUrl
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Routes
+app.get('/', (req, res) => {
+  res.status(200).json({ success: true, message: "Welcome to Bhavana International API" });
+});
+
+app.use('/api/v1/quote', quoteRoutes);
+
+// Handle 404
+app.use((req, res, next) => {
+  const error = new Error('Route not found');
+  error.statusCode = 404;
+  next(error);
+});
+
+// Global Error Handler
+app.use(globalErrorHandler);
+
+// Start Server
+const PORT = config.port;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});

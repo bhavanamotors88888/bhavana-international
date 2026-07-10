@@ -19,7 +19,7 @@ const Home = () => {
     email: '',
     phone: '',
     country: '',
-    message: ''
+    requirements: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState({ type: null, message: '' });
@@ -47,10 +47,10 @@ const Home = () => {
       errors.email = 'Please enter a valid email address';
     }
 
-    if (!formData.message.trim()) {
-      errors.message = 'Requirements description is required';
-    } else if (formData.message.trim().length < 10) {
-      errors.message = 'Requirements must be at least 10 characters';
+    if (!formData.requirements.trim()) {
+      errors.requirements = 'Requirements description is required';
+    } else if (formData.requirements.trim().length < 10) {
+      errors.requirements = 'Requirements must be at least 10 characters';
     }
 
     return errors;
@@ -89,7 +89,7 @@ const Home = () => {
       const rawBaseUrl = import.meta.env.VITE_API_URL || '';
       const baseUrl = rawBaseUrl.replace(/\/$/, '');
       const apiUrl = baseUrl ? `${baseUrl}/api/v1` : '/api/v1';
-      const response = await fetch(`${apiUrl}/contacts`, {
+      const response = await fetch(`${apiUrl}/quote/request-quote`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -100,7 +100,7 @@ const Home = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || data.errors?.[0]?.message || 'Something went wrong. Please try again.');
+        throw new Error(data.message || data.errors?.[0] || 'Something went wrong. Please try again.');
       }
 
       setSubmitStatus({
@@ -115,7 +115,7 @@ const Home = () => {
         email: '',
         phone: '',
         country: '',
-        message: ''
+        requirements: ''
       });
     } catch (err) {
       setSubmitStatus({
@@ -569,21 +569,21 @@ const Home = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label htmlFor="message" className="text-sm font-medium text-text-body">Your Requirements<span className='text-red-700 '>*</span></label>
+                  <label htmlFor="requirements" className="text-sm font-medium text-text-body">Your Requirements<span className='text-red-700 '>*</span></label>
                   <textarea
-                    id="message"
-                    name="message"
+                    id="requirements"
+                    name="requirements"
                     rows="5"
-                    value={formData.message}
+                    value={formData.requirements}
                     onChange={handleInputChange}
-                    className={`w-full px-4 py-3 rounded-lg border focus:ring-2 outline-none transition-all resize-none ${validationErrors.message
+                    className={`w-full px-4 py-3 rounded-lg border focus:ring-2 outline-none transition-all resize-none ${validationErrors.requirements
                         ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20'
                         : 'border-border-input focus:border-primary-main focus:ring-primary-main/20'
                       }`}
                     placeholder="Tell us the products you're looking for, quantity, destination country, or any specific requirements."
                   />
-                  {validationErrors.message && (
-                    <p className="text-xs text-red-600 mt-1">{validationErrors.message}</p>
+                  {validationErrors.requirements && (
+                    <p className="text-xs text-red-600 mt-1">{validationErrors.requirements}</p>
                   )}
                 </div>
                 <button
