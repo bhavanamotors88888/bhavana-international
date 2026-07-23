@@ -4,7 +4,7 @@ const config = require('../../config/env.config');
 const resend = new Resend(config.resendApiKey);
 
 const sendQuoteEmail = async (quoteData) => {
-  const { name, companyName, email, phone, destinationCountry, requirements } = quoteData;
+  const { name, company, email, phone, country, interestedIn, requirements } = quoteData;
 
   const mailOptions = {
     from: `Bhavana International <${config.resendFromEmail}>`, 
@@ -39,11 +39,15 @@ const sendQuoteEmail = async (quoteData) => {
             </tr>
             <tr>
               <td style="padding: 14px 16px; border-bottom: 1px solid #E5E7EB; font-weight: 600; color: #5B7CA3; font-size: 14px;">Company Name</td>
-              <td style="padding: 14px 16px; border-bottom: 1px solid #E5E7EB; color: #1F2937; font-weight: 500;">${companyName || '<span style="color: #9CA3AF;">Not provided</span>'}</td>
+              <td style="padding: 14px 16px; border-bottom: 1px solid #E5E7EB; color: #1F2937; font-weight: 500;">${company || '<span style="color: #9CA3AF;">Not provided</span>'}</td>
             </tr>
             <tr>
-              <td style="padding: 14px 16px; font-weight: 600; color: #5B7CA3; font-size: 14px;">Destination Country</td>
-              <td style="padding: 14px 16px; color: #1F2937; font-weight: 500;">${destinationCountry || '<span style="color: #9CA3AF;">Not provided</span>'}</td>
+              <td style="padding: 14px 16px; border-bottom: 1px solid #E5E7EB; font-weight: 600; color: #5B7CA3; font-size: 14px;">Destination Country</td>
+              <td style="padding: 14px 16px; border-bottom: 1px solid #E5E7EB; color: #1F2937; font-weight: 500;">${country || '<span style="color: #9CA3AF;">Not provided</span>'}</td>
+            </tr>
+            <tr>
+              <td style="padding: 14px 16px; font-weight: 600; color: #5B7CA3; font-size: 14px;">Interested In</td>
+              <td style="padding: 14px 16px; color: #1F2937; font-weight: 500;">${interestedIn || '<span style="color: #9CA3AF;">Not provided</span>'}</td>
             </tr>
           </table>
 

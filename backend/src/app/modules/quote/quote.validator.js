@@ -9,6 +9,14 @@ const validateQuoteRequest = (data) => {
     errors.push('A valid email is required.');
   }
 
+  if (!data.phone || typeof data.phone !== 'string' || data.phone.trim() === '') {
+    errors.push('Phone is required.');
+  }
+
+  if (!data.interestedIn || typeof data.interestedIn !== 'string' || data.interestedIn.trim() === '') {
+    errors.push('Please select what you are interested in.');
+  }
+
   if (!data.requirements || typeof data.requirements !== 'string' || data.requirements.trim() === '') {
     errors.push('Requirements field is required.');
   }
