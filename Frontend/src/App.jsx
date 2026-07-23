@@ -3,6 +3,7 @@ import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import Home from './pages/home/Home';
 import About from './pages/about/About';
+import Products from './pages/products/Products';
 
 
 import ScrollToTop from './components/utils/ScrollToTop';
@@ -16,6 +17,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/products" element={<Products />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>

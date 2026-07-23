@@ -9,7 +9,7 @@ const About = () => {
     document.title = "About Bhavana International | Indian Vehicle Export Company";
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute("content", "Learn about Bhavana International, an Indian Vehicle Export Company supplying motorcycles, authorised OEM spare parts, and ceramic products worldwide today.");
+      metaDescription.setAttribute("content", "Learn about Bhavana International, a trusted Indian Vehicle Export Company supplying vehicles, OEM spare parts, and automotive products to businesses worldwide.");
     }
   }, []);
 
@@ -20,7 +20,7 @@ const About = () => {
         <div className="container-custom max-w-4xl">
           <h1 className="text-4xl md:text-5xl font-bold mb-6 text-primary-main">About Us</h1>
           <p className="text-xl text-text-body leading-relaxed">
-            Learn more about Bhavana International, an Indian Vehicle Export Company helping businesses source quality products from India. We work with importers, dealers, and distributors by supplying two-wheelers, three-wheelers, four-wheelers, authorised OEM spare parts, ceramic products, and wooden furniture to businesses across international markets.
+            Learn more about Bhavana International, an Indian Vehicle Export Company helping businesses source vehicles and automotive products from India. We work with businesses across global markets and support you from enquiry to delivery.
           </p>
         </div>
       </section>
@@ -32,10 +32,10 @@ const About = () => {
             <div className="order-2 md:order-1">
               <h2 className="text-3xl font-bold mb-6 text-primary-main">The Story Behind Bhavana International</h2>
               <p className="text-text-body text-lg mb-4 leading-relaxed">
-                Bhavana International is an Indian Vehicle Export Company supplying two-wheelers, three-wheelers, four-wheelers, authorised OEM spare parts, ceramic products, and wooden furniture to businesses across global markets. Our customers include importers, dealers, and distributors looking for a reliable sourcing partner from India.
+                Bhavana International was started to help businesses source quality vehicles and automotive products from India. Today, we work with businesses across global markets, helping them source quality vehicles and automotive products from India.
               </p>
               <p className="text-text-body text-lg mb-4 leading-relaxed">
-                No two businesses have the same requirements, so we begin by understanding what's important to each customer before suggesting suitable products. Every order is handled with care because we believe trust is earned through consistency, quality, and the way we work with our customers—not just through the products we supply.
+                We take the time to understand your requirements before recommending the right products. From sourcing to delivery, we keep the process simple and keep you updated along the way.
               </p>
             </div>
             <div className="order-1 md:order-2">
@@ -55,47 +55,52 @@ const About = () => {
               <Target size={48} className="text-secondary-main mb-6" />
               <h3 className="text-2xl font-bold mb-4 text-primary-main">Our Mission</h3>
               <p className="text-text-body text-lg leading-relaxed">
-                To help businesses across global markets source quality products from India through a reliable and well-managed export experience. We take the time to understand what each business needs, deliver quality products, and build relationships based on trust.
+                To help businesses around the world source quality vehicles and automotive products from India with reliable support, clear communication, and timely delivery.
               </p>
             </div>
             <div className="glass-panel p-10 rounded-2xl border-t-4 border-secondary-main bg-bg-card shadow-sm hover:shadow-lg transition-all">
               <Eye size={48} className="text-secondary-main mb-6" />
               <h3 className="text-2xl font-bold mb-4 text-primary-main">Our Vision</h3>
               <p className="text-text-body text-lg leading-relaxed">
-                To help businesses across global markets source quality products from India through a reliable and well-managed export experience. We want to understand every customer's requirements, delivering consistent quality, to building partnerships based on trust.
+                To become a trusted Global Automotive Supplier, connecting businesses across international markets with quality products and dependable export services.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 5. Values / The Way We Work */}
+      {/* 5. How We Work Together */}
       <section className="py-20 bg-primary-main text-white">
         <div className="container-custom">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold mb-4 text-white">The Way We Work</h2>
-            <p className="text-secondary-light text-lg">Our approach is simple: understand your requirements, communicate clearly, and build long-term business relationships through reliable service</p>
+            <h2 className="text-3xl font-bold mb-4 text-white">How We Work Together</h2>
+            <p className="text-secondary-light text-lg">Every order starts with understanding your requirements. From there, we help with sourcing, documentation, and delivery while keeping you updated throughout the process.</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="bg-white/5 border border-white/10 p-8 rounded-2xl text-center">
-              <ShieldCheck size={40} className="text-secondary-main mx-auto mb-4" />
-              <h4 className="text-xl font-bold mb-2 text-white">Built on Trust</h4>
-              <p className="text-secondary-light text-sm">The best business relationships start with trust. We believe in being honest, clear, and straightforward from the beginning.</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+            <div className="bg-white/5 border border-white/10 p-6 rounded-2xl text-center">
+              <div className="w-10 h-10 rounded-full bg-secondary-main text-white flex items-center justify-center font-bold text-lg mx-auto mb-4">1</div>
+              <h4 className="text-lg font-bold mb-2 text-white">Share Your Requirements</h4>
+              <p className="text-secondary-light text-sm">Tell us the products, quantity, and destination you need.</p>
             </div>
-            <div className="bg-white/5 border border-white/10 p-8 rounded-2xl text-center">
-              <Award size={40} className="text-secondary-main mx-auto mb-4" />
-              <h4 className="text-xl font-bold mb-2 text-white">Quality First</h4>
-              <p className="text-secondary-light text-sm">Before any order moves forward, we make sure it meets the standards our customers expect.</p>
+            <div className="bg-white/5 border border-white/10 p-6 rounded-2xl text-center">
+              <div className="w-10 h-10 rounded-full bg-secondary-main text-white flex items-center justify-center font-bold text-lg mx-auto mb-4">2</div>
+              <h4 className="text-lg font-bold mb-2 text-white">Receive a Tailored Proposal</h4>
+              <p className="text-secondary-light text-sm">We recommend suitable products and provide a detailed quotation.</p>
             </div>
-            <div className="bg-white/5 border border-white/10 p-8 rounded-2xl text-center">
-              <Zap size={40} className="text-secondary-main mx-auto mb-4" />
-              <h4 className="text-xl font-bold mb-2 text-white">Every Order Matters</h4>
-              <p className="text-secondary-light text-sm">Whether it's a first enquiry or a repeat order, every customer gets the same care and attention.</p>
+            <div className="bg-white/5 border border-white/10 p-6 rounded-2xl text-center">
+              <div className="w-10 h-10 rounded-full bg-secondary-main text-white flex items-center justify-center font-bold text-lg mx-auto mb-4">3</div>
+              <h4 className="text-lg font-bold mb-2 text-white">Confirm Your Order</h4>
+              <p className="text-secondary-light text-sm">Once approved, we finalize the order and begin export preparation.</p>
             </div>
-            <div className="bg-white/5 border border-white/10 p-8 rounded-2xl text-center">
-              <Users size={40} className="text-secondary-main mx-auto mb-4" />
-              <h4 className="text-xl font-bold mb-2 text-white">Long-Term Relationships</h4>
-              <p className="text-secondary-light text-sm">We enjoy working with customers who see us as a long-term business partner, not just a supplier.</p>
+            <div className="bg-white/5 border border-white/10 p-6 rounded-2xl text-center">
+              <div className="w-10 h-10 rounded-full bg-secondary-main text-white flex items-center justify-center font-bold text-lg mx-auto mb-4">4</div>
+              <h4 className="text-lg font-bold mb-2 text-white">Shipping & Coordination</h4>
+              <p className="text-secondary-light text-sm">We manage documentation and coordinate shipping for a smooth export process.</p>
+            </div>
+            <div className="bg-white/5 border border-white/10 p-6 rounded-2xl text-center">
+              <div className="w-10 h-10 rounded-full bg-secondary-main text-white flex items-center justify-center font-bold text-lg mx-auto mb-4">5</div>
+              <h4 className="text-lg font-bold mb-2 text-white">Ongoing Support</h4>
+              <p className="text-secondary-light text-sm">Our team remains available to assist you before, during, and after delivery.</p>
             </div>
           </div>
         </div>
@@ -105,8 +110,8 @@ const About = () => {
       <section className="py-20 bg-bg-main">
         <div className="container-custom">
           <div className="max-w-3xl mx-auto text-center mb-16">
-            <h2 className="text-3xl font-bold mb-4 text-primary-main">Why Partner With Us?</h2>
-            <p className="text-text-body text-lg">Choosing the right export partner matters. That’s why we focus on delivering quality products, dependable support, and a smooth experience for every business we work with.</p>
+            <h2 className="text-3xl font-bold mb-4 text-primary-main">Why Choose Bhavana International?</h2>
+            <p className="text-text-body text-lg">We combine quality products, reliable export solutions, and dedicated support to help your business grow.</p>
           </div>
           <div className="grid md:grid-cols-2 gap-10">
             <div className="flex gap-4 ">
@@ -116,8 +121,8 @@ const About = () => {
                 </div>
               </div>
               <div>
-                <h4 className="text-xl font-bold mb-2 text-primary-main">Diverse Product Portfolio</h4>
-                <p className="text-text-body leading-relaxed">Choose from motorcycles, scooters, authorised OEM spare parts, and products across multiple industries to suit your business requirements.</p>
+                <h4 className="text-xl font-bold mb-2 text-primary-main">Wide Product Portfolio</h4>
+                <p className="text-text-body leading-relaxed">Source vehicles, OEM spare parts, tyres, wheels, automotive accessories, and selected products through one trusted export partner.</p>
               </div>
             </div>
             <div className="flex gap-4">
@@ -127,8 +132,8 @@ const About = () => {
                 </div>
               </div>
               <div>
-                <h4 className="text-xl font-bold mb-2 text-primary-main">Quality Assurance</h4>
-                <p className="text-text-body leading-relaxed">Every order is inspected before dispatch to help ensure it meets the expected quality standards.</p>
+                <h4 className="text-xl font-bold mb-2 text-primary-main">Quality You Can Trust</h4>
+                <p className="text-text-body leading-relaxed">Every order is carefully inspected before shipment to help ensure it meets international quality standards.</p>
               </div>
             </div>
             <div className="flex gap-4">
@@ -138,19 +143,19 @@ const About = () => {
                 </div>
               </div>
               <div>
-                <h4 className="text-xl font-bold mb-2 text-primary-main">End-to-End Logistics</h4>
-                <p className="text-text-body leading-relaxed">From documentation and customs coordination to international shipping, we help keep your export process well managed.</p>
+                <h4 className="text-xl font-bold mb-2 text-primary-main">Reliable Export Support</h4>
+                <p className="text-text-body leading-relaxed">From product sourcing and documentation to shipping coordination, our team supports you throughout the export journey.</p>
               </div>
             </div>
             <div className="flex gap-4">
               <div className="shrink-0 mt-1">
                 <div className="w-12 h-12 bg-bg-alternate rounded-lg flex items-center justify-center text-secondary-main">
-                  <Zap size={24} />
+                  <Users size={24} />
                 </div>
               </div>
               <div>
-                <h4 className="text-xl font-bold mb-2 text-primary-main">Cost Efficiency</h4>
-                <p className="text-text-body leading-relaxed">Our sourcing and logistics approach helps businesses achieve better value while maintaining product quality.</p>
+                <h4 className="text-xl font-bold mb-2 text-primary-main">Long-Term Partnerships</h4>
+                <p className="text-text-body leading-relaxed">We believe strong business relationships are built on transparency, responsive communication, and dependable service.</p>
               </div>
             </div>
           </div>
@@ -162,7 +167,7 @@ const About = () => {
         <div className="container-custom max-w-3xl">
           <h2 className="text-3xl font-bold mb-6 text-primary-main">Ready to Partner with Bhavana International?</h2>
           <p className="text-text-body text-lg mb-8">
-            Let's discuss your business requirements and help you source vehicles, authorised OEM spare parts, ceramic products, and wooden furniture from India with confidence.
+            Looking for a trusted B2B Automobile Exporter? Connect with our team to discuss your sourcing requirements and discover reliable export solutions tailored to your business.
           </p>
           <Link to="/#contact" className="inline-block mx-auto">
             <Button size="lg" variant="primary" className="flex items-center justify-center px-10 py-4 text-lg">

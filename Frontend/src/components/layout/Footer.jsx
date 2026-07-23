@@ -32,7 +32,7 @@ const Footer = () => {
           <h3 className="text-lg font-semibold text-primary-main mb-2">Contact</h3>
           <div className="flex items-start gap-3 text-text-body text-sm">
             <MapPin size={18} className="shrink-0 mt-0.5 text-secondary-main" />
-            <span>New Delhi, India</span>
+            <span>Nadiad, Gujarat, india 38700</span>
           </div>
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-3 text-text-body text-sm">
