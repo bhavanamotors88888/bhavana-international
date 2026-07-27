@@ -1,23 +1,44 @@
 const nodemailer = require('nodemailer');
 const config = require('../config/env.config');
+const { google } = require('googleapis');
 
-const transporter = nodemailer.createTransport({
-  host: 'smtp.resend.com',
-  port: 465,
-  secure: true,
-  auth: {
-    user: 'resend',
-    pass: config.resendApiKey,
-  },
-});
+const OAuth2 = google.auth.OAuth2;
 
-// Verify connection configuration
-transporter.verify(function (error, success) {
-  if (error) {
-    console.error('[MailProvider] Connection error:', error);
-  } else {
-    console.log('[MailProvider] Server is ready to take our messages (Resend SMTP)');
-  }
-});
+const createTransporter = async () => {
+  const oauth2Client = new OAuth2(
+    config.googleClientId,
+    config.googleClientSecret,
+    'https://developers.google.com/oauthplayground'
+  );
 
-module.exports = transporter;
+  oauth2Client.setCredentials({
+    refresh_token: config.googleRefreshToken
+  });
+
+  const accessToken = await new Promise((resolve, reject) => {
+    oauth2Client.getAccessToken((err, token) => {
+      if (err) {
+        console.error('[MailProvider] Failed to get OAuth2 Access Token:', err.message);
+        reject(new Error('Failed to generate access token for email service.'));
+      } else {
+        resolve(token);
+      }
+    });
+  });
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      type: 'OAuth2',
+      user: config.googleUserEmail,
+      accessToken,
+      clientId: config.googleClientId,
+      clientSecret: config.googleClientSecret,
+      refreshToken: config.googleRefreshToken
+    }
+  });
+
+  return transporter;
+};
+
+module.exports = { createTransporter };

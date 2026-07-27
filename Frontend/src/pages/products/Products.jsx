@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import QuoteSection from '../../components/QuoteSection';
 import { Link } from 'react-router-dom';
 import { 
   Bike, 
@@ -124,10 +125,7 @@ const Products = () => {
             Explore the wide range of automotive products exported by Bhavana International. As a trusted Automotive Products Exporter India, we supply quality two wheelers, three wheelers, four wheelers, OEM spare parts, tyres, wheels, and automotive accessories to importers, distributors, and dealers across global markets.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link to="/#contact">
-              <Button size="lg" variant="primary">Request a Quote</Button>
-            </Link>
-        
+            <Button size="lg" variant="primary" onClick={() => scrollToSection('contact')}>Request a Quote</Button>
           </div>
         </div>
       </section>
@@ -193,9 +191,9 @@ const Products = () => {
                       </span>
                     ))}
                   </div>
-                  <Link to="/#contact" className="inline-flex items-center text-secondary-main font-semibold hover:text-primary-main transition-colors">
+                  <button onClick={() => scrollToSection('contact')} className="inline-flex items-center text-secondary-main font-semibold hover:text-primary-main transition-colors">
                     Request a Quote <ArrowRight size={18} className="ml-2" />
-                  </Link>
+                  </button>
                 </div>
                 <div className="w-full md:w-1/3 flex justify-center items-center h-full min-h-[200px] md:min-h-[300px] bg-bg-alternate rounded-xl border border-border-main/50 overflow-hidden">
                   <img src={product.image} alt={product.title} className="w-full h-full object-cover" />
@@ -241,19 +239,7 @@ const Products = () => {
       </section>
 
       {/* 5. Bottom CTA */}
-      <section className="py-20 bg-bg-section text-center border-b border-border-main">
-        <div className="container-custom max-w-3xl">
-          <h2 className="text-3xl font-bold mb-6 text-primary-main">Ready to Expand Your Product Range?</h2>
-          <p className="text-text-body text-lg mb-8">
-            Partner with us to source quality automotive products from India with confidence.
-          </p>
-          <Link to="/#contact" className="inline-block mx-auto">
-            <Button size="lg" variant="primary" className="flex items-center justify-center px-10 py-4 text-lg">
-              Contact Our Team <ArrowRight size={20} className="ml-2" />
-            </Button>
-          </Link>
-        </div>
-      </section>
+      <QuoteSection />
     </div>
   );
 };
