@@ -1,4 +1,4 @@
-const { createTransporter } = require('../../providers/mail.provider');
+const { sendEmailViaAPI } = require('../../providers/mail.provider');
 const config = require('../../config/env.config');
 
 const sendQuoteEmail = async (quoteData) => {
@@ -67,8 +67,7 @@ const sendQuoteEmail = async (quoteData) => {
   };
 
   try {
-    const transporter = await createTransporter();
-    const info = await transporter.sendMail(mailOptions);
+    const info = await sendEmailViaAPI(mailOptions);
     return info;
   } catch (error) {
     console.error('Error sending quote email:', error);

@@ -1,10 +1,9 @@
-const nodemailer = require('nodemailer');
 const config = require('../config/env.config');
 const { google } = require('googleapis');
 
 const OAuth2 = google.auth.OAuth2;
 
-const createTransporter = async () => {
+const sendEmailViaAPI = async ({ from, to, replyTo, subject, html }) => {
   const oauth2Client = new OAuth2(
     config.googleClientId,
     config.googleClientSecret,
@@ -15,30 +14,38 @@ const createTransporter = async () => {
     refresh_token: config.googleRefreshToken
   });
 
-  const accessToken = await new Promise((resolve, reject) => {
-    oauth2Client.getAccessToken((err, token) => {
-      if (err) {
-        console.error('[MailProvider] Failed to get OAuth2 Access Token:', err.message);
-        reject(new Error('Failed to generate access token for email service.'));
-      } else {
-        resolve(token);
-      }
-    });
+  const gmail = google.gmail({ version: 'v1', auth: oauth2Client });
+
+  // Construct RFC 2822 message
+  const utf8Subject = `=?utf-8?B?${Buffer.from(subject).toString('base64')}?=`;
+  const messageParts = [
+    `From: ${from}`,
+    `To: ${to}`,
+    `Subject: ${utf8Subject}`,
+    `Reply-To: ${replyTo}`,
+    'MIME-Version: 1.0',
+    'Content-Type: text/html; charset=utf-8',
+    '',
+    html,
+  ];
+
+  const message = messageParts.join('\n');
+  
+  // The Gmail API requires base64url encoding
+  const encodedMessage = Buffer.from(message)
+    .toString('base64')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=+$/, '');
+
+  const res = await gmail.users.messages.send({
+    userId: 'me',
+    requestBody: {
+      raw: encodedMessage,
+    },
   });
 
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      type: 'OAuth2',
-      user: config.googleUserEmail,
-      accessToken,
-      clientId: config.googleClientId,
-      clientSecret: config.googleClientSecret,
-      refreshToken: config.googleRefreshToken
-    }
-  });
-
-  return transporter;
+  return res.data;
 };
 
-module.exports = { createTransporter };
+module.exports = { sendEmailViaAPI };
