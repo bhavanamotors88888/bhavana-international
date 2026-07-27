@@ -127,9 +127,7 @@ const Products = () => {
             <Link to="/#contact">
               <Button size="lg" variant="primary">Request a Quote</Button>
             </Link>
-            <Link to="/#contact">
-              <Button size="lg" variant="outline">Contact Our Team</Button>
-            </Link>
+        
           </div>
         </div>
       </section>
