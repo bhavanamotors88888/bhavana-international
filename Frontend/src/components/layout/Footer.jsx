@@ -12,7 +12,7 @@ const Footer = () => {
             <Logo />
           </Link>
           <p className="text-text-body text-sm leading-relaxed">
-            Bhavana International is a trusted Two Wheeler Exporter in India, connecting India to the world through dependable export services for the automobile and ceramic industries. We work with businesses across international markets by providing reliable sourcing and dedicated customer support.
+          At Bhavana International, we help importers, distributors, and dealers source quality vehicles and automotive products from India. As a trusted Automobile Exporter in India, we're committed to making the export process simple and reliable.
           </p>
      
         </div>

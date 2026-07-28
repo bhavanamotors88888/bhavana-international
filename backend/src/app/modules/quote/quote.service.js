@@ -5,7 +5,7 @@ const sendQuoteEmail = async (quoteData) => {
   const { name, company, email, phone, country, interestedIn, requirements } = quoteData;
 
   const mailOptions = {
-    from: `Bhavana International <${config.googleUserEmail}>`, 
+    from: `Bhavana International <${config.googleUserEmail}>`,
     to: email,
     subject: `New Quote Request from ${name}`,
     html: `
