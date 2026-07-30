@@ -1,51 +1,38 @@
 const nodemailer = require('nodemailer');
 const dns = require('dns');
-const net = require('net');
+const { promisify } = require('util');
 const config = require('../config/env.config');
 
-// Force IPv4 globally for this process — fixes ENETUNREACH on Render free tier
-dns.setDefaultResultOrder('ipv4first');
+const resolve4 = promisify(dns.resolve4);
 
 const isSecure = Number(config.smtpPort) === 465;
 
-// Custom DNS lookup that only returns IPv4 addresses
-const ipv4Lookup = (hostname, options, callback) => {
-  dns.resolve4(hostname, (err, addresses) => {
-    if (err) {
-      return callback(err);
-    }
-    // Return the first IPv4 address
-    callback(null, addresses[0], 4);
-  });
-};
-
-
-const createTransporter = () => {
-  return nodemailer.createTransport({
-    host: config.smtpHost,
-    port: Number(config.smtpPort),
-    secure: isSecure,
-    auth: {
-      user: config.smtpUser,
-      pass: config.smtpPass,
-    },
-    tls: {
-      rejectUnauthorized: false,
-      servername: config.smtpHost,
-    },
-    connectionTimeout: 30000,
-    greetingTimeout: 30000,
-    socketTimeout: 30000,
-    family: 4,
-    dnsLookup: ipv4Lookup,
-  });
-};
-
 const sendEmailViaAPI = async ({ from, to, replyTo, subject, html }) => {
-  // Create a fresh transporter for each send to avoid stale connections
-  const transporter = createTransporter();
-
   try {
+    // Step 1: Manually resolve hostname to IPv4 ONLY
+    const addresses = await resolve4(config.smtpHost);
+    const ipv4Address = addresses[0];
+    console.log(`Resolved ${config.smtpHost} to IPv4: ${ipv4Address}`);
+
+    // Step 2: Create transporter with raw IPv4 IP — bypasses all DNS resolution
+    const transporter = nodemailer.createTransport({
+      host: ipv4Address,
+      port: Number(config.smtpPort),
+      secure: isSecure,
+      auth: {
+        user: config.smtpUser,
+        pass: config.smtpPass,
+      },
+      tls: {
+        rejectUnauthorized: false,
+        servername: config.smtpHost, // Original hostname for TLS handshake
+      },
+      connectionTimeout: 30000,
+      greetingTimeout: 30000,
+      socketTimeout: 30000,
+    });
+
+    // Step 3: Send the email
     const mailOptions = {
       from: from || `"Bhavana International" <${config.smtpUser}>`,
       to: to,
@@ -54,7 +41,7 @@ const sendEmailViaAPI = async ({ from, to, replyTo, subject, html }) => {
       html: html,
     };
 
-    console.log(`Attempting to send email to: ${to}, host: ${config.smtpHost}, port: ${config.smtpPort}`);
+    console.log(`Sending email to: ${to}, via IPv4: ${ipv4Address}:${config.smtpPort}`);
     const info = await transporter.sendMail(mailOptions);
     console.log("Email sent successfully:", info.response);
     return info;
@@ -65,4 +52,3 @@ const sendEmailViaAPI = async ({ from, to, replyTo, subject, html }) => {
 };
 
 module.exports = { sendEmailViaAPI };
-
