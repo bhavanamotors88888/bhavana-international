@@ -19,6 +19,7 @@ const ipv4Lookup = (hostname, options, callback) => {
   });
 };
 
+
 const createTransporter = () => {
   return nodemailer.createTransport({
     host: config.smtpHost,
