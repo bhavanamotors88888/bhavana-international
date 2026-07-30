@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const config = {
   port: process.env.PORT || 5000,
-  frontendUrl: process.env.FRONTEND_URL || 'http://localhost:3000',
+  frontendUrl: process.env.FRONTEND_URL ,
   smtpHost: process.env.SMTP_HOST || 'smtp.hostinger.com',
   smtpPort: process.env.SMTP_PORT || 465,
   smtpUser: process.env.SMTP_USER,
