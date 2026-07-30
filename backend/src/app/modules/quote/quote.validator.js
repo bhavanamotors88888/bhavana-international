@@ -21,6 +21,10 @@ const validateQuoteRequest = (data) => {
     errors.push('Requirements field is required.');
   }
 
+
+
+
+  
   return {
     isValid: errors.length === 0,
     errors
