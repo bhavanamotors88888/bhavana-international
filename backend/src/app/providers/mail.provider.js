@@ -1,51 +1,33 @@
+const nodemailer = require('nodemailer');
 const config = require('../config/env.config');
-const { google } = require('googleapis');
 
-const OAuth2 = google.auth.OAuth2;
+const transporter = nodemailer.createTransport({
+  host: config.smtpHost,
+  port: config.smtpPort,
+  secure: config.smtpPort == 465, // true for port 465, false for 587
+  auth: {
+    user: config.smtpUser,
+    pass: config.smtpPass,
+  },
+});
 
 const sendEmailViaAPI = async ({ from, to, replyTo, subject, html }) => {
-  const oauth2Client = new OAuth2(
-    config.googleClientId,
-    config.googleClientSecret,
-    'https://developers.google.com/oauthplayground'
-  );
+  try {
+    const mailOptions = {
+      from: from || `"Bhavana International" <${config.smtpUser}>`,
+      to: to,
+      replyTo: replyTo,
+      subject: subject,
+      html: html,
+    };
 
-  oauth2Client.setCredentials({
-    refresh_token: config.googleRefreshToken
-  });
-
-  const gmail = google.gmail({ version: 'v1', auth: oauth2Client });
-
-  // Construct RFC 2822 message
-  const utf8Subject = `=?utf-8?B?${Buffer.from(subject).toString('base64')}?=`;
-  const messageParts = [
-    `From: ${from}`,
-    `To: ${to}`,
-    `Subject: ${utf8Subject}`,
-    `Reply-To: ${replyTo}`,
-    'MIME-Version: 1.0',
-    'Content-Type: text/html; charset=utf-8',
-    '',
-    html,
-  ];
-
-  const message = messageParts.join('\n');
-  
-  // The Gmail API requires base64url encoding
-  const encodedMessage = Buffer.from(message)
-    .toString('base64')
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-    .replace(/=+$/, '');
-
-  const res = await gmail.users.messages.send({
-    userId: 'me',
-    requestBody: {
-      raw: encodedMessage,
-    },
-  });
-
-  return res.data;
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email sent successfully:", info.response);
+    return info;
+  } catch (error) {
+    console.error("Error in sendEmailViaAPI:", error);
+    throw error;
+  }
 };
 
 module.exports = { sendEmailViaAPI };
