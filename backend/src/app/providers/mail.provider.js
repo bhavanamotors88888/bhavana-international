@@ -16,6 +16,7 @@ const transporter = nodemailer.createTransport({
   },
   connectionTimeout: 15000,
   greetingTimeout: 15000,
+  family: 4, // Force IPv4 — Render free tier does not support IPv6 outbound
 });
 
 const sendEmailViaAPI = async ({ from, to, replyTo, subject, html }) => {
