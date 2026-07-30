@@ -4,7 +4,7 @@ const config = {
   port: process.env.PORT || 5000,
   frontendUrl: process.env.FRONTEND_URL ,
   smtpHost: process.env.SMTP_HOST || 'smtp.hostinger.com',
-  smtpPort: process.env.SMTP_PORT || 465,
+  smtpPort: process.env.SMTP_PORT || 587,
   smtpUser: process.env.SMTP_USER,
   smtpPass: process.env.SMTP_PASS,
   contactEmail: process.env.SMTP_USER

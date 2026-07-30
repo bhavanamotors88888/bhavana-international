@@ -1,14 +1,21 @@
 const nodemailer = require('nodemailer');
 const config = require('../config/env.config');
 
+const isSecure = Number(config.smtpPort) === 465;
+
 const transporter = nodemailer.createTransport({
   host: config.smtpHost,
   port: Number(config.smtpPort),
-  secure: Number(config.smtpPort) === 465, // true for port 465, false for 587
+  secure: isSecure, // false for port 587, true for 465
   auth: {
     user: config.smtpUser,
     pass: config.smtpPass,
   },
+  tls: {
+    rejectUnauthorized: false
+  },
+  connectionTimeout: 15000,
+  greetingTimeout: 15000,
 });
 
 const sendEmailViaAPI = async ({ from, to, replyTo, subject, html }) => {
